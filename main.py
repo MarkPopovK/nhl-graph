@@ -84,18 +84,20 @@ def main():
             points_matrix[game_n] = sorted(points_matrix[game_n])
     print(len(points_matrix))
 
-    for result in results:
-
+    for result in sorted(results,
+                         key=lambda result: list(results[result].values())[-1],
+                         reverse=True):
         game_ns = list(results[result].keys())
         points = list(results[result].values())
-        place = [-(sorted(points_matrix[i]+[point], reverse=True).index(point)+1) for i, point in enumerate(points,1)]
+        place = [-(sorted(points_matrix[i] + [point], reverse=True).index(point) + 1) for i, point in
+                 enumerate(points, 1)]
 
-        #points = [point-i for i, point in enumerate(points)]
+        # points = [point-i for i, point in enumerate(points)]
 
         teams.append({
             'x': game_ns,
             'y': points,
-            'name': result,
+            'name': f'{result} ({points[-1]}/{game_ns[-1]*2} pts = {round(points[-1]/game_ns[-1]/2*100,1)}%)',
             'visible': 'legendonly',
         })
 
